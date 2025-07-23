@@ -1,0 +1,136 @@
+إنشاء VLANs لقسمين في الجامعة (الطلاب والإدارة)
+
+    إعداد الأجهزة
+
+        جهاز سويتش
+
+        جهازان كمبيوتر لقسم الطلاب
+
+        جهازان كمبيوتر لقسم الإدارة
+
+    إعداد VLANs
+
+        إنشاء VLAN 10 لقسم الطلاب
+
+        إنشاء VLAN 20 لقسم الإدارة
+
+    تخصيص المنافذ (Ports) في السويتش
+
+        VLAN 10: المنافذ 1 و 2 مخصصة للأجهزة في قسم الطلاب
+
+        VLAN 20: المنافذ 3 و 4 مخصصة للأجهزة في قسم الإدارة
+
+    إعداد الـ IP Addresses
+
+        قسم الطلاب (VLAN 10): 192.168.10.0/24
+
+        قسم الإدارة (VLAN 20): 192.168.20.0/24
+
+    قم باختبار الاتصال
+
+        داخل قسم الطلاب (VLAN 10): يجب أن تتمكن أجهزة قسم الطلاب من التواصل مع بعضها.
+
+        داخل قسم الإدارة (VLAN 20): يجب أن تتمكن أجهزة قسم الإدارة من التواصل مع بعضها.
+
+        بين الأقسام: لا يمكن الاتصال بين قسم الطلاب وقسم الإدارة لأن كل قسم في VLAN مختلفة.
+        
+        
+        
+        
+-------------------------------------------------------------------------------------------------------
+إليك خطوات إعداد شبكة VLAN باستخدام Cisco Packet Tracer لتقسيم الشبكة إلى قسمين: الطلاب والإدارة:
+✅ 1. إعداد الأجهزة
+
+قم بوضع الأجهزة التالية في واجهة Cisco Packet Tracer:
+
+    1 سويتش (Switch) — مثل Switch0.
+
+    4 أجهزة كمبيوتر (PCs):
+
+        PC1 و PC2 لقسم الطلاب.
+
+        PC3 و PC4 لقسم الإدارة.
+
+✅ 2. توصيل الأجهزة
+
+    قم بتوصيل كل جهاز كمبيوتر بالسويتش باستخدام كابل Copper Straight-Through:
+
+        PC1 إلى المنفذ FastEthernet0/1
+
+        PC2 إلى المنفذ FastEthernet0/2
+
+        PC3 إلى المنفذ FastEthernet0/3
+
+        PC4 إلى المنفذ FastEthernet0/4
+
+✅ 3. إعداد VLANs على السويتش
+
+ادخل إلى سطر أوامر السويتش (CLI) وابدأ بالإعدادات:
+
+Switch> enable
+Switch# configure terminal
+
+! إنشاء VLANs
+Switch(config)# vlan 10
+Switch(config-vlan)# name Students
+Switch(config-vlan)# exit
+
+Switch(config)# vlan 20
+Switch(config-vlan)# name Admin
+Switch(config-vlan)# exit
+
+! تخصيص المنافذ لـ VLAN 10 (الطلاب)
+Switch(config)# interface range fa0/1 - 2
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 10
+Switch(config-if-range)# exit
+
+! تخصيص المنافذ لـ VLAN 20 (الإدارة)
+Switch(config)# interface range fa0/3 - 4
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 20
+Switch(config-if-range)# exit
+
+Switch(config)# exit
+Switch# write memory
+
+✅ 4. إعداد عناوين IP لأجهزة الكمبيوتر
+
+اذهب إلى كل جهاز كمبيوتر واضغط على Desktop > IP Configuration، وخصص الآتي:
+لأجهزة قسم الطلاب (PC1 و PC2):
+
+    IP Address: 192.168.10.10 و 192.168.10.11
+
+    Subnet Mask: 255.255.255.0
+
+    Default Gateway: 192.168.10.1 (مؤقتًا، لا حاجة للراوتر الآن)
+
+لأجهزة قسم الإدارة (PC3 و PC4):
+
+    IP Address: 192.168.20.10 و 192.168.20.11
+
+    Subnet Mask: 255.255.255.0
+
+    Default Gateway: 192.168.20.1
+
+✅ 5. اختبار الاتصال (Ping)
+
+افتح Command Prompt من كل جهاز:
+
+    من PC1 جرب:
+
+ping 192.168.10.11  (نجاح - داخل VLAN 10)
+ping 192.168.20.10  (فشل - مختلف VLAN)
+
+من PC3 جرب:
+
+    ping 192.168.20.11  (نجاح - داخل VLAN 20)
+    ping 192.168.10.10  (فشل - مختلف VLAN)
+
+✅ ملاحظات
+
+    لن يتم الاتصال بين VLANs المختلفة بدون وجود راوتر أو Layer 3 Switch.
+
+    تأكد أن كل منفذ تم تخصيصه بشكل صحيح للـ VLAN الخاصة به.
+
+هل ترغب أن أرسل لك ملف .pkt جاهز لتفتح في Packet Tracer؟
