@@ -20,3 +20,7 @@ This project simulates the segmentation of a university network into two departm
 
 ### 📁 Packet Tracer File
 You can upload and link the `.pkt` file here if available.
+
+
+
+<img width="1920" height="1048" alt="Screenshot From 2025-07-23 23-57-19" src="https://github.com/user-attachments/assets/81f8666d-d79e-4987-9c94-39c0ece89b3a" />
